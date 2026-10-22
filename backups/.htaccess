@@ -1,0 +1,2 @@
+# Deny direct public access to database backup files
+Deny from all

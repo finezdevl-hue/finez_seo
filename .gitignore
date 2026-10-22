@@ -1,0 +1,12 @@
+# Backups & Archives
+backups/*.sql
+*.zip
+*.tar.gz
+
+# Logs & System Files
+*.log
+seo/error_log
+seo/api/error_log
+.ftpquota
+seo/.ftpquota
+seo/api/.ftpquota
