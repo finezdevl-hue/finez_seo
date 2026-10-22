@@ -1,8 +1,9 @@
 <?php
 // Finez SEO Application Configuration
 
-$app_domain = "fineztechnologies.com";
-$app_url = "https://www.fineztechnologies.com";
+// Default domain and production URL
+$app_domain = getenv('APP_DOMAIN') ?: "fineztechnologies.com";
+$app_url    = getenv('APP_URL') ?: "https://www.fineztechnologies.com";
 
 if (!defined('APP_URL')) {
     define('APP_URL', $app_url);
