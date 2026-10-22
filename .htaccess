@@ -1,5 +1,37 @@
 RewriteEngine On
-Options -MultiViews
+Options -MultiViews -Indexes
+
+# ==============================================================================
+# Security & Access Control
+# ==============================================================================
+
+# Block direct access to config, database, backups, and .git folders
+RewriteRule ^(config|database|backups|\.git)(/.*)?$ - [F,L,NC]
+
+# Block direct access to sensitive extensions (SQL dumps, logs, configs)
+<FilesMatch "\.(sql|log|ini|bak|env|sh|git.*)$">
+    Require all denied
+</FilesMatch>
+
+# ==============================================================================
+# Security & SEO Headers
+# ==============================================================================
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Set X-Robots-Tag noindex for private SEO dashboard and includes areas
+SetEnvIf Request_URI "/(seo|includes)/" IS_PRIVATE_PAGE
+<IfModule mod_headers.c>
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive" env=IS_PRIVATE_PAGE
+</IfModule>
+
+# ==============================================================================
+# Clean URLs & Rewrites (Remove .php)
+# ==============================================================================
 
 # 1. Redirect /index.php to / (canonical root)
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s(.*)/index\.php [NC]
@@ -11,7 +43,7 @@ RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.?]+)\.php [NC]
 RewriteCond %{REQUEST_METHOD} !POST
 RewriteRule ^ %1 [R=301,L]
 
-# 3. If file or folder exists as-is (e.g. assets, css, js, images), serve directly
+# 3. If file or folder exists as-is (e.g. assets, css, js, images, robots.txt, sitemap.xml, humans.txt), serve directly
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]

@@ -4,6 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Finez SEO Management Console - Track domain backlinks, client projects, and employee productivity in real time.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.fineztechnologies.com/">
+    <link rel="author" href="humans.txt">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Finez SEO - Empower Your SEO Campaigns">
+    <meta property="og:description" content="High-speed backlink tracking, project audits, and employee workflow management.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.fineztechnologies.com/">
+    <meta name="twitter:card" content="summary">
     <title>Falcon | Login - Finez SEO</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

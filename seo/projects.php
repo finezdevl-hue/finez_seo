@@ -12,6 +12,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Falcon | SEO Projects - Finez SEO</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

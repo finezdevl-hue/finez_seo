@@ -1,0 +1,5 @@
+Contact: mailto:security@fineztechnologies.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://www.fineztechnologies.com/.well-known/security.txt
+Policy: https://www.fineztechnologies.com/security-policy

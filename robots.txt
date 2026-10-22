@@ -1,0 +1,31 @@
+# Finez SEO Platform Robots Configuration
+# https://www.fineztechnologies.com/robots.txt
+
+User-agent: *
+# Allow indexing of public portal landing pages and static assets
+Allow: /$
+Allow: /assets/
+Allow: /sitemap.xml
+Allow: /robots.txt
+Allow: /humans.txt
+
+# Disallow indexing of private backend, configs, database dumps, backups, and APIs
+Disallow: /config/
+Disallow: /database/
+Disallow: /backups/
+Disallow: /includes/
+Disallow: /seo/
+Disallow: /seo/api/
+
+# Block crawlers from sensitive files
+Disallow: /*.sql$
+Disallow: /*.log$
+Disallow: /*.ini$
+Disallow: /*.bak$
+Disallow: /*.env$
+
+# Crawl-delay for polite indexing
+Crawl-delay: 5
+
+# XML Sitemap Location
+Sitemap: https://www.fineztechnologies.com/sitemap.xml

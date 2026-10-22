@@ -1,0 +1,16 @@
+/* TEAM */
+  Company: Finez Technologies
+  Product: Finez SEO Platform Console
+  Website: https://www.fineztechnologies.com
+  Location: India
+
+/* THANKS */
+  Design: Falcon CRM Clean UI Design
+  Icons: Font Awesome
+  Core: PHP, MySQL, Apache
+
+/* SITE */
+  Standards: HTML5, CSS3, ES6
+  Components: jQuery, MetisMenu, Chart.js, SweetAlert
+  Clean URLs: Enabled (mod_rewrite)
+  Last Updated: 2026-10-22
