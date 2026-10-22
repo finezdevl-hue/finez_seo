@@ -124,13 +124,13 @@ if (!isset($_SESSION['name'])) {
             <!-- Top Header End -->
 
             <!-- Falcon Page Heading Start -->
-            <div class="row wrapper page-heading">
+            <div class="row wrapper page-heading" style="margin: 0 0 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
                 <div class="col-sm-7 page-heading-left">
                     <span class="page-title-badge"><i class="fa fa-database"></i> System Operations</span>
                     <h2>Database Backups</h2>
                     <p class="page-heading-desc">Export database snapshots, preserve backups on the server disk, and download to your PC</p>
                 </div>
-                <div class="col-sm-5 page-heading-right">
+                <div class="col-sm-5 page-heading-right" style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
                     <button type="button" class="btn btn-white" onclick="loadBackupsList();" style="height: 40px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
                         <i class="fa fa-refresh"></i> Refresh
                     </button>
@@ -142,10 +142,10 @@ if (!isset($_SESSION['name'])) {
             <!-- Page Heading End -->
 
             <!-- Falcon CRM 3-Card KPI Row -->
-            <div class="wrapper wrapper-content" style="padding-bottom: 0 !important;">
+            <div class="wrapper wrapper-content" style="padding-bottom: 0 !important; padding-top: 0 !important;">
                 <div class="row crm-kpi-row">
                     <!-- KPI 1: Total Backups on Server -->
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 col-xs-12">
                         <div class="crm-kpi-card">
                             <div class="crm-kpi-info">
                                 <span class="crm-kpi-label">Server Backups</span>
@@ -159,7 +159,7 @@ if (!isset($_SESSION['name'])) {
                     </div>
 
                     <!-- KPI 2: Server Storage Used -->
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 col-xs-12">
                         <div class="crm-kpi-card">
                             <div class="crm-kpi-info">
                                 <span class="crm-kpi-label">Total Backup Storage</span>
@@ -173,11 +173,11 @@ if (!isset($_SESSION['name'])) {
                     </div>
 
                     <!-- KPI 3: Latest Backup Timestamp -->
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 col-xs-12">
                         <div class="crm-kpi-card">
                             <div class="crm-kpi-info">
                                 <span class="crm-kpi-label">Latest Snapshot</span>
-                                <span class="crm-kpi-value" id="kpi_latest_backup" style="font-size: 1.15rem; font-weight: 800; color: var(--falcon-green);">Checking...</span>
+                                <span class="crm-kpi-value" id="kpi_latest_backup" style="font-size: 1.05rem; font-weight: 800; color: var(--falcon-green); letter-spacing: 0; line-height: 1.25;">Checking...</span>
                                 <span class="crm-kpi-subtext"><span style="color: var(--falcon-green); font-weight: 700;"><i class="fa fa-shield"></i> Safe</span> recovery point</span>
                             </div>
                             <div class="crm-kpi-icon success">

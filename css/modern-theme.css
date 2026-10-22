@@ -613,9 +613,15 @@ body.mini-navbar .nav.metismenu > li > a i {
     background: #ffffff !important;
     border-bottom: 1px solid var(--falcon-border-color) !important;
     padding: 1.35rem 1.75rem 1.25rem 1.75rem !important;
-    margin-bottom: 1.5rem;
+    margin: 0 0 1.5rem 0 !important;
     box-shadow: 0 1px 4px rgba(10, 25, 18, 0.02);
     position: relative;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 16px;
+    clear: both !important;
 }
 
 .page-heading::after {
@@ -626,6 +632,7 @@ body.mini-navbar .nav.metismenu > li > a i {
     right: 1.75rem;
     height: 1px;
     background: linear-gradient(90deg, rgba(0, 168, 98, 0.3) 0%, transparent 80%);
+    pointer-events: none;
 }
 
 .page-title-badge {
@@ -663,7 +670,27 @@ body.mini-navbar .nav.metismenu > li > a i {
    Falcon CRM KPI Metrics Row & Cards (Compact & Elegant)
    ========================================================================== */
 .crm-kpi-row {
-    margin-bottom: 1.5rem;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    margin-left: -10px !important;
+    margin-right: -10px !important;
+    margin-bottom: 1.5rem !important;
+    clear: both !important;
+}
+
+.crm-kpi-row > [class*="col-"] {
+    float: none !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    margin-bottom: 14px;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.crm-kpi-row .crm-kpi-card {
+    flex: 1 1 auto;
+    width: 100%;
+    margin-bottom: 0;
 }
 
 .crm-kpi-card {
