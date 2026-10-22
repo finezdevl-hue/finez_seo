@@ -11,6 +11,7 @@ if (isset($_POST['websitename'])) {
     $_SESSION['websitename'] = $_POST['websitename'];
 }
 $website_name = $_SESSION['websitename'] ?? 'All Projects';
+$is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -201,12 +202,17 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                     var rows = data[1] || [];
                     var htm = "";
 
+                    var isAdmin = data[0] && (data[0].is_admin === true || data[0].is_admin === 1);
+                    var currentUserId = data[0] ? data[0].current_login_id : 0;
+                    var boxTitle = isAdmin ? "Published Backlinks (" + totalrows + ")" : "My Backlink History (" + totalrows + ")";
+                    var badgeHtm = isAdmin ? "<span class='badge-modern badge-subtle-success'><i class='fa fa-check-circle'></i> Verified Active</span>" : "<span class='badge-modern badge-subtle-success'><i class='fa fa-user-circle'></i> My Submissions</span>";
+
                     htm += "<div class='row'>";
                     htm += "<div class='col-lg-12'>";
                     htm += "<div class='ibox'>";
                     htm += "<div class='ibox-title'>";
-                    htm += "<h5><i class='fa fa-link' style='color: var(--falcon-primary); margin-right: 8px;'></i> Published Backlinks (" + totalrows + ")</h5>";
-                    htm += "<div><span class='badge-modern badge-subtle-success'><i class='fa fa-check-circle'></i> Verified Active</span></div>";
+                    htm += "<h5><i class='fa fa-link' style='color: var(--falcon-primary); margin-right: 8px;'></i> " + boxTitle + "</h5>";
+                    htm += "<div>" + badgeHtm + "</div>";
                     htm += "</div>";
                     htm += "<div class='ibox-content'>";
                     htm += "<div class='table-responsive'>";
@@ -225,9 +231,10 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                     htm += "<tbody>";
 
                     if (!rows || rows.length === 0) {
+                        var emptyMsg = isAdmin ? "No backlinks published yet for this project" : "No backlinks submitted by you for this project yet";
                         htm += "<tr><td colspan='7' style='text-align: center; padding: 48px 20px; color: var(--falcon-gray-600);'>";
                         htm += "<i class='fa fa-chain-broken' style='font-size: 36px; color: var(--falcon-gray-400); display: block; margin-bottom: 12px;'></i>";
-                        htm += "<strong style='font-size: 15px; color: var(--falcon-gray-900);'>No backlinks published yet</strong><br>";
+                        htm += "<strong style='font-size: 15px; color: var(--falcon-gray-900);'>" + emptyMsg + "</strong><br>";
                         htm += "<small>Click the green '+ Add Backlink' button above to submit your first live link for this campaign.</small>";
                         htm += "</td></tr>";
                     } else {
@@ -438,7 +445,7 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
             <div class="falcon-topbar">
                 <div style="display: flex; align-items: center; gap: 14px;">
                     <a class="navbar-minimalize minimalize-styl-2" href="#"><i class="fa fa-bars"></i> </a>
-                    <span style="font-size: 14px; font-weight: 700; color: var(--falcon-gray-700);"><i class="fa fa-link" style="color: var(--falcon-primary); margin-right: 8px;"></i> Campaign Backlinks Tracker</span>
+                    <span style="font-size: 14px; font-weight: 700; color: var(--falcon-gray-700);"><i class="fa fa-link" style="color: var(--falcon-primary); margin-right: 8px;"></i> <?php echo $is_admin ? 'Campaign Backlinks Tracker' : 'My Campaign Backlinks'; ?></span>
                 </div>
 
                 <div class="topbar-right-section">
@@ -460,7 +467,7 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                 <div class="col-md-5 col-sm-12">
                     <span class="page-title-badge"><i class="fa fa-link"></i> Link Building</span>
                     <h2 id="lbl_page_project_name">Backlinks Tracker</h2>
-                    <p class="page-heading-desc">Publish verified backlinks, monitor domain targets, and record platform credentials</p>
+                    <p class="page-heading-desc"><?php echo $is_admin ? 'Publish verified backlinks, monitor domain targets, and record platform credentials' : 'Submit and monitor your published backlinks and platform credentials for this campaign'; ?></p>
                 </div>
                 <div class="col-md-7 col-sm-12 header-controls-group" style="margin-top: 10px;">
                     <!-- Project Selector -->
@@ -491,8 +498,8 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
             <div class="row wrapper" style="margin: 0 0 15px 0;">
                 <div class="col-xs-12" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <div style="display: flex; gap: 8px;">
-                        <a href="backlinks.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-link"></i> Backlinks Tracker</a>
-                        <a href="backlink_list.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-history text-primary"></i> Full Backlink History</a>
+                        <a href="backlinks.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-link"></i> <?php echo $is_admin ? 'Backlinks Tracker' : 'My Backlinks'; ?></a>
+                        <a href="backlink_list.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-history text-primary"></i> <?php echo $is_admin ? 'Global Backlink History' : 'My Backlink History'; ?></a>
                     </div>
                     <div class="input-group" style="width: 260px;">
                         <input type="text" id="txt_search" class="form-control input-sm" placeholder="Search live URL, category..." onkeyup="if(event.keyCode===13){loadData(1);}" style="border-radius: 6px 0 0 6px; height: 32px; font-size: 12px;">

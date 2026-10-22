@@ -369,7 +369,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
             <div class="falcon-topbar">
                 <div style="display: flex; align-items: center; gap: 14px;">
                     <a class="navbar-minimalize minimalize-styl-2" href="#"><i class="fa fa-bars"></i> </a>
-                    <span style="font-size: 14px; font-weight: 700; color: var(--falcon-gray-700);"><i class="fa fa-history" style="color: var(--falcon-primary); margin-right: 8px;"></i> Global Backlinks Audit Trail</span>
+                    <span style="font-size: 14px; font-weight: 700; color: var(--falcon-gray-700);"><i class="fa fa-history" style="color: var(--falcon-primary); margin-right: 8px;"></i> <?php echo $is_admin ? 'Global Backlinks Audit Trail' : 'My Backlink History Trail'; ?></span>
                 </div>
 
                 <div class="topbar-right-section">
@@ -412,8 +412,8 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
             <div class="row wrapper" style="margin: 0 0 15px 0;">
                 <div class="col-xs-12" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <div style="display: flex; gap: 8px;">
-                        <a href="backlinks.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-link text-primary"></i> Backlinks Tracker</a>
-                        <a href="backlink_list.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-history"></i> Full Backlink History</a>
+                        <a href="backlinks.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-link text-primary"></i> <?php echo $is_admin ? 'Backlinks Tracker' : 'My Backlinks'; ?></a>
+                        <a href="backlink_list.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-history"></i> <?php echo $is_admin ? 'Global Backlink History' : 'My Backlink History'; ?></a>
                     </div>
                 </div>
             </div>

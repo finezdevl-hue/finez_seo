@@ -106,20 +106,28 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
             $currentLoginId = (int)($_SESSION['login_id'] ?? 0);
             $isAdmin = ($currentLoginId === 1);
 
-            $sql = "SELECT login_id, name FROM tbl_seo_login ORDER BY name ASC";
-            $result = app_exec_query($sql);
+            if ($isAdmin) {
+                // Admin can view and filter across all team members
+                $sql = "SELECT login_id, name FROM tbl_seo_login ORDER BY name ASC";
+                $result = app_exec_query($sql);
 
-            echo "<div class='dropdown'><select id='selected_employee' class='status-dropdown' onchange='loadData(1)'>";
-            echo "<option value='0' selected>All Team Members</option>";
-            if ($result && $result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $id = (int)$row['login_id'];
-                    $name = htmlspecialchars($row['name']);
-                    $label = ($id === $currentLoginId) ? "$name (Me)" : $name;
-                    echo "<option value='$id'>$label</option>";
+                echo "<div class='dropdown'><select id='selected_employee' class='status-dropdown' onchange='loadData(1)'>";
+                echo "<option value='0' selected>All Team Members</option>";
+                if ($result && $result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $id = (int)$row['login_id'];
+                        $name = htmlspecialchars($row['name']);
+                        $label = ($id === $currentLoginId) ? "$name (Admin)" : $name;
+                        echo "<option value='$id'>$label</option>";
+                    }
                 }
+                echo "</select></div>";
+            } else {
+                // Employee only sees their own backlink history - locked to self
+                $empName = htmlspecialchars($_SESSION['name'] ?? 'My Submissions');
+                echo "<input type='hidden' id='selected_employee' value='$currentLoginId'>";
+                echo "<span class='badge-modern badge-subtle-success' style='height: 38px; display: inline-flex; align-items: center; padding: 0 14px; font-size: 12px; font-weight: 700;'><i class='fa fa-user-circle'></i> $empName (My Submissions)</span>";
             }
-            echo "</select></div>";
             exit();
         } catch (Exception $e) {
             http_response_code(500);
@@ -141,7 +149,13 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
             $isAdmin = ($currentLoginId === 1);
 
             $projectId = get_active_project_id();
-            $employeeId = isset($_POST['employee']) && $_POST['employee'] !== '' ? (int)$_POST['employee'] : 0;
+
+            // CRITICAL: Employees only ever see their OWN backlink history
+            if (!$isAdmin) {
+                $employeeId = $currentLoginId;
+            } else {
+                $employeeId = isset($_POST['employee']) && $_POST['employee'] !== '' ? (int)$_POST['employee'] : 0;
+            }
             $searchVal = trim($_POST['val'] ?? '');
 
             $whereParts = ["b.project_id = " . $projectId];
