@@ -17,9 +17,9 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
         nav_url, b.parent_id as menu_parent_id,b.menu_level as menu_level,b.sub_menu as sub_menu,b.icon FROM tbl_seo_menu b LEFT OUTER JOIN 
         tbl_seo_menu as a on b.parent_id=a.id ) AS qry1 INNER JOIN (select menu_id from 
         tbl_seo_menu_map where login_id='" . $_SESSION['login_id'] . "') as c on qry1.menu_id=c.menu_id 
-        WHERE qry1.nav_url != 'set_menu.php'
+        WHERE qry1.nav_url NOT IN ('set_menu', 'set_menu.php')
         order by
-        FIELD(qry1.nav_url, 'projects.php', 'backlinks.php', 'backlink_list.php', 'tickets.php', 'members.php', 'backup.php'),
+        FIELD(qry1.nav_url, 'projects', 'backlinks', 'backlink_list', 'tickets', 'members', 'backup', 'projects.php', 'backlinks.php', 'backlink_list.php', 'tickets.php', 'members.php', 'backup.php'),
         qry1.menu_parent_id,qry1.menu_id,qry1.menu_level";
 
       
@@ -37,16 +37,16 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
                     $sub_menu_count_holder=0;
                     $stringval='';
                     $stringval.="<ul class=\"nav metismenu\" id=\"side-menu\">";
-                    $stringval.="<li><a href=\"dashboard.php\"><i class=\"fa fa-th-large\"></i> <span class=\"nav-label\">Dashboard</span></a></li>";
+                    $stringval.="<li><a href=\"dashboard\"><i class=\"fa fa-th-large\"></i> <span class=\"nav-label\">Dashboard</span></a></li>";
                 // Fetch all rows as an associative array
                 while ($row = $result->fetch_assoc()) {
                     
-                    $nav_url = $row['nav_url'];
-                    if ($nav_url === 'set_menu.php') {
+                    $nav_url = preg_replace('/\.php$/', '', $row['nav_url']);
+                    if ($nav_url === 'set_menu') {
                         continue;
                     }
                     $menu_name = $row['menu_name'];
-                    if ($nav_url === 'members.php' || strtolower($menu_name) === 'members') {
+                    if ($nav_url === 'members' || strtolower($menu_name) === 'members') {
                         $menu_name = 'Employees';
                     }
                     $menu_parent_id = $row['menu_parent_id'];

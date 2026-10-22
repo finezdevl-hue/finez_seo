@@ -1,12 +1,12 @@
 <?php
 session_start();
 if (!isset($_SESSION['name'])) {
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
 }
 // Administrative Access Only (Restricted from employees)
 if (!isset($_SESSION['login_id']) || (int)$_SESSION['login_id'] !== 1) {
-    header("Location: dashboard.php");
+    header("Location: dashboard");
     exit();
 }
 if(isset($_POST['id'])){
@@ -52,7 +52,7 @@ if(isset($_POST['id'])){
             $('#hdn_current_page').val(page);
             $.ajax({               
                 type: "POST",
-                url: "api/set_menu.php",
+                url: "api/set_menu",
                 data: {
                     action: 'load_login_data',
                     page: page, 
@@ -138,7 +138,7 @@ if(isset($_POST['id'])){
         function load_set_menu(){
             $.ajax({
                 type: "POST",
-                url: "api/set_menu.php",
+                url: "api/set_menu",
                 data: {
                     action: 'load_menu',
                 },
@@ -178,7 +178,7 @@ if(isset($_POST['id'])){
             
             $.ajax({               
                 type: "POST",
-                url: "api/set_menu.php",
+                url: "api/set_menu",
                 data: {
                     action: 'save_menu',
                     id: id, 
@@ -200,7 +200,7 @@ if(isset($_POST['id'])){
             $("input[name='group']:checkbox").prop('checked', false);
             $.ajax({               
                 type: "POST",
-                url: "api/set_menu.php",
+                url: "api/set_menu",
                 data: {
                     action: 'fetch_menu_details',
                     id: login_id,
@@ -268,7 +268,7 @@ if(isset($_POST['id'])){
                         <img src="../assets/img/customer.png" class="topbar-avatar" alt="Avatar">
                         <span class="topbar-username"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Admin'); ?></span>
                     </div>
-                    <a href="../includes/auth/logout.php" class="btn-falcon-logout">
+                    <a href="../includes/auth/logout" class="btn-falcon-logout">
                         <i class="fa fa-sign-out"></i>
                         <span>Log out</span>
                     </a>

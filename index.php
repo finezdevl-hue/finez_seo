@@ -91,7 +91,7 @@
                 <span>Special character restricted. Only @, #, $ are permitted.</span>
             </div>
 
-            <form role="form" action="./includes/auth/login_validation.php" method="POST">
+            <form role="form" action="./includes/auth/login_validation" method="POST">
                 <div class="form-group">
                     <label for="user_name">Username or Email</label>
                     <div class="auth-input-group">
@@ -103,7 +103,7 @@
                 <div class="form-group">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                         <label for="password" style="margin: 0;">Password</label>
-                        <a href="./includes/auth/forgot_password.php" style="font-size: 0.75rem; color: var(--falcon-primary); font-weight: 500;">
+                        <a href="./includes/auth/forgot_password" style="font-size: 0.75rem; color: var(--falcon-primary); font-weight: 500;">
                             Forgot Password?
                         </a>
                     </div>

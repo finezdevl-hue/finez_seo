@@ -2,12 +2,12 @@
 session_start();
 // Administrative Access Only (Restricted from employees)
 if (!isset($_SESSION['login_id']) || (int)$_SESSION['login_id'] !== 1) {
-    header("Location: dashboard.php");
+    header("Location: dashboard");
     exit();
 }
 
 if (!isset($_SESSION['name'])) {
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
 }
 if(isset($_POST['id'])){
@@ -55,7 +55,7 @@ if(isset($_POST['id'])){
             }
             $.ajax({               
                 type: "POST",
-                url: "api/members.php",
+                url: "api/members",
                 data: {
                     action: 'load_members_data',
                     page: page, 
@@ -175,7 +175,7 @@ if(isset($_POST['id'])){
                     };
                     $.ajax({
                         type: "POST",
-                        url: "api/members.php",
+                        url: "api/members",
                         data: data,
                         success: function(response) {
                             closePopupLogin();
@@ -252,7 +252,7 @@ if(isset($_POST['id'])){
                     };
                     $.ajax({
                         type: "POST",
-                        url: "api/members.php",
+                        url: "api/members",
                         data: data,
                         success: function(response) {
                             closepopupMemberDetails();
@@ -322,7 +322,7 @@ if(isset($_POST['id'])){
                         <img src="../assets/img/customer.png" class="topbar-avatar" alt="Avatar">
                         <span class="topbar-username"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Admin'); ?></span>
                     </div>
-                    <a href="../includes/auth/logout.php" class="btn-falcon-logout">
+                    <a href="../includes/auth/logout" class="btn-falcon-logout">
                         <i class="fa fa-sign-out"></i>
                         <span>Log out</span>
                     </a>

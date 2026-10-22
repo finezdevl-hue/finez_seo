@@ -42,7 +42,7 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form" action="login_validation.php" method="POST">
+            <form class="m-t" role="form" action="login_validation" method="POST">
                 <div class="form-group">
                     <input type="text" id="user_name" name="user_name" class="form-control" placeholder="Username" required="">
                 </div>
@@ -51,7 +51,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b" onsubmit="return validatePassword()">Login</button>
 
-                <!-- <a href="forgot_password.php"><small>Forgot password?</small></a> -->
+                <!-- <a href="forgot_password"><small>Forgot password?</small></a> -->
             </form>
         </div>
     </div>

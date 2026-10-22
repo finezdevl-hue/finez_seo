@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['name'])) {
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
 }
 
@@ -282,7 +282,7 @@ try {
                         <img src="../assets/img/customer.png" class="topbar-avatar" alt="Avatar">
                         <span class="topbar-username"><?php echo htmlspecialchars($user_display_name); ?></span>
                     </div>
-                    <a href="../includes/auth/logout.php" class="btn-falcon-logout">
+                    <a href="../includes/auth/logout" class="btn-falcon-logout">
                         <i class="fa fa-sign-out"></i>
                         <span>Log out</span>
                     </a>
@@ -306,20 +306,20 @@ try {
 
                 <div class="col-sm-5" style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
                     <?php if ($is_admin): ?>
-                        <a href="projects.php" class="btn btn-primary" style="height: 40px; font-size: 13px; font-weight: 700; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;">
+                        <a href="projects" class="btn btn-primary" style="height: 40px; font-size: 13px; font-weight: 700; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fa fa-plus"></i> Add Project
                         </a>
-                        <a href="backlink_list.php" class="btn btn-white" style="height: 40px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
+                        <a href="backlink_list" class="btn btn-white" style="height: 40px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fa fa-history"></i> Audit Trail
                         </a>
                     <?php else: ?>
-                        <a href="backlinks.php" class="btn btn-primary" style="height: 40px; font-size: 13px; font-weight: 700; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;">
+                        <a href="backlinks" class="btn btn-primary" style="height: 40px; font-size: 13px; font-weight: 700; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fa fa-plus"></i> Submit Backlink
                         </a>
-                        <a href="tickets.php" class="btn btn-white" style="height: 40px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
+                        <a href="tickets" class="btn btn-white" style="height: 40px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fa fa-ticket"></i> My Tasks
                         </a>
-                        <a href="backlink_list.php" class="btn btn-white" style="height: 40px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
+                        <a href="backlink_list" class="btn btn-white" style="height: 40px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px;">
                             <i class="fa fa-history"></i> My History
                         </a>
                     <?php endif; ?>
@@ -512,7 +512,7 @@ try {
                             <div class="ibox">
                                 <div class="ibox-title">
                                     <h5><i class="fa fa-history" style="color: var(--falcon-primary); margin-right: 8px;"></i> Recent Backlink Submissions</h5>
-                                    <a href="backlink_list.php" style="font-size: 13px; font-weight: 700;">View All &rarr;</a>
+                                    <a href="backlink_list" style="font-size: 13px; font-weight: 700;">View All &rarr;</a>
                                 </div>
                                 <div class="ibox-content">
                                     <div class="table-responsive">
@@ -552,7 +552,7 @@ try {
                             <div class="ibox">
                                 <div class="ibox-title">
                                     <h5><i class="fa fa-globe" style="color: var(--falcon-primary); margin-right: 8px;"></i> Top Active Campaigns</h5>
-                                    <a href="projects.php" style="font-size: 14.5px; font-weight: 700;">All Projects &rarr;</a>
+                                    <a href="projects" style="font-size: 14.5px; font-weight: 700;">All Projects &rarr;</a>
                                 </div>
                                 <div class="ibox-content">
                                     <div class="table-responsive">
@@ -591,7 +591,7 @@ try {
                             <div class="ibox">
                                 <div class="ibox-title">
                                     <h5><i class="fa fa-ticket" style="color: var(--falcon-primary); margin-right: 8px;"></i> My Assigned SEO Tasks &amp; Tickets</h5>
-                                    <a href="tickets.php" style="font-size: 13px; font-weight: 700;">Tickets Board &rarr;</a>
+                                    <a href="tickets" style="font-size: 13px; font-weight: 700;">Tickets Board &rarr;</a>
                                 </div>
                                 <div class="ibox-content">
                                     <?php if (!empty($emp_assigned_tickets)): ?>
@@ -648,7 +648,7 @@ try {
                                                                 </div>
                                                             </td>
                                                             <td style="text-align: right;">
-                                                                <a href="tickets.php" class="btn btn-xs btn-primary" style="font-weight: 700; padding: 4px 10px; border-radius: 6px;">
+                                                                <a href="tickets" class="btn btn-xs btn-primary" style="font-weight: 700; padding: 4px 10px; border-radius: 6px;">
                                                                     Work &rarr;
                                                                 </a>
                                                             </td>
@@ -667,10 +667,10 @@ try {
                                                 You have no pending tasks assigned at the moment. You can view all project tickets or submit new backlinks.
                                             </p>
                                             <div style="display: flex; gap: 8px; justify-content: center;">
-                                                <a href="tickets.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;">
+                                                <a href="tickets" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;">
                                                     <i class="fa fa-ticket"></i> View All Tickets
                                                 </a>
-                                                <a href="backlinks.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;">
+                                                <a href="backlinks" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;">
                                                     <i class="fa fa-plus"></i> Submit Backlink
                                                 </a>
                                             </div>
@@ -685,7 +685,7 @@ try {
                             <div class="ibox">
                                 <div class="ibox-title">
                                     <h5><i class="fa fa-history" style="color: var(--falcon-primary); margin-right: 8px;"></i> My Recent Submissions</h5>
-                                    <a href="backlink_list.php" style="font-size: 13px; font-weight: 700;">Full Log &rarr;</a>
+                                    <a href="backlink_list" style="font-size: 13px; font-weight: 700;">Full Log &rarr;</a>
                                 </div>
                                 <div class="ibox-content" style="padding: 12px 16px !important;">
                                     <?php if (!empty($recent_backlinks)): ?>
@@ -717,7 +717,7 @@ try {
                                         <div style="text-align: center; padding: 28px 10px; color: var(--falcon-gray-600); font-size: 13px;">
                                             <i class="fa fa-link" style="font-size: 28px; color: var(--falcon-gray-400); margin-bottom: 8px; display: block;"></i>
                                             No backlinks submitted yet.<br>
-                                            <a href="backlinks.php" class="btn btn-primary btn-xs" style="margin-top: 10px; font-weight: 700;">Submit Your First Link</a>
+                                            <a href="backlinks" class="btn btn-primary btn-xs" style="margin-top: 10px; font-weight: 700;">Submit Your First Link</a>
                                         </div>
                                     <?php endif; ?>
                                 </div>

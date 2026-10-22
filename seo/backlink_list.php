@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['name'])) {
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
 }
 if(isset($_POST['id'])){
@@ -94,7 +94,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
         function load_project() {
             $.ajax({
                 type: "POST",
-                url: "api/backlink_list.php",
+                url: "api/backlink_list",
                 data: { action: 'load_project' },
                 success: function(data) {
                     $('#status-container').html(data);
@@ -109,7 +109,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
         function load_modal_projects() {
             $.ajax({
                 type: "POST",
-                url: "api/backlinks.php",
+                url: "api/backlinks",
                 data: { action: 'load_all_projects' },
                 dataType: "json",
                 success: function(res) {
@@ -129,7 +129,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
         function load_content_categories() {
             $.ajax({
                 type: "POST",
-                url: "api/backlinks.php",
+                url: "api/backlinks",
                 data: { action: 'load_content' },
                 dataType: "json",
                 success: function(res) {
@@ -153,7 +153,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
             }
             $.ajax({               
                 type: "POST",
-                url: "api/backlink_list.php",
+                url: "api/backlink_list",
                 data: {
                     action: 'load_data',
                     page: page,
@@ -309,7 +309,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                     };
                     $.ajax({
                         type: "POST",
-                        url: "api/backlinks.php",
+                        url: "api/backlinks",
                         data: data,
                         dataType: "json",
                         success: function(response) {
@@ -378,7 +378,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                         <img src="../assets/img/customer.png" class="topbar-avatar" alt="Avatar">
                         <span class="topbar-username"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Specialist'); ?></span>
                     </div>
-                    <a href="../includes/auth/logout.php" class="btn-falcon-logout">
+                    <a href="../includes/auth/logout" class="btn-falcon-logout">
                         <i class="fa fa-sign-out"></i>
                         <span>Log out</span>
                     </a>
@@ -398,7 +398,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                         <label style="margin: 0; font-size: 12px; font-weight: 700; color: var(--falcon-gray-700);"><i class="fa fa-filter text-primary"></i> Project:</label>
                         <div id="status-container"></div>
                     </div>
-                    <a href="backlinks.php" class="btn btn-white" style="height: 38px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                    <a href="backlinks" class="btn btn-white" style="height: 38px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
                         <i class="fa fa-link text-primary"></i> Backlinks Tracker
                     </a>
                     <button type="button" id="btn_add_backlink" class="btn btn-primary" onclick="addBacklinks(event);" style="height: 38px; font-size: 13px; font-weight: 700; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; cursor: pointer; position: relative; z-index: 5;">
@@ -412,8 +412,8 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
             <div class="row wrapper" style="margin: 0 0 15px 0;">
                 <div class="col-xs-12" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                     <div style="display: flex; gap: 8px;">
-                        <a href="backlinks.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-link text-primary"></i> <?php echo $is_admin ? 'Backlinks Tracker' : 'My Backlinks'; ?></a>
-                        <a href="backlink_list.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-history"></i> <?php echo $is_admin ? 'Global Backlink History' : 'My Backlink History'; ?></a>
+                        <a href="backlinks" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-link text-primary"></i> <?php echo $is_admin ? 'Backlinks Tracker' : 'My Backlinks'; ?></a>
+                        <a href="backlink_list" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-history"></i> <?php echo $is_admin ? 'Global Backlink History' : 'My Backlink History'; ?></a>
                     </div>
                 </div>
             </div>

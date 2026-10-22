@@ -24,10 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         if ($result->num_rows > 0) {
-            header("Location: ../../seo/dashboard.php");
+            header("Location: ../../seo/dashboard");
             exit();
         } else {
-            header("Location: ../../index.php?error=invalid");
+            header("Location: ../../?error=invalid");
             exit();
         }
 
@@ -109,10 +109,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form"action="../../index.php" method="POST">
+            <form class="m-t" role="form"action="../../" method="POST">
                 <p  style="color: red">Invalid Usernaem or Password</p>
-                <form action="../../index.php" method="POST"> 
-                    <button type="submit" class="btn btn-primary block full-width m-b"><?phpheader("Location: ../../index.php");?>retry</button>
+                <form action="../../" method="POST"> 
+                    <button type="submit" class="btn btn-primary block full-width m-b"><?phpheader("Location: ../../");?>retry</button>
                 </form>
                 <!-- <a href="forgot_password.php"><small>Forgot password?</small></a> -->
             </form>

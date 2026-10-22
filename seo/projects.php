@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['name'])) {
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
 }
 $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
@@ -47,7 +47,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
             }
             $.ajax({               
                 type: "POST",
-                url: "api/projects.php",
+                url: "api/projects",
                 data: {
                     action: 'load_data',
                     page: page, 
@@ -185,7 +185,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                     };
                     $.ajax({
                         type: "POST",
-                        url: "api/projects.php",
+                        url: "api/projects",
                         data: data,
                         success: function(response) {
                             closeProject();
@@ -204,9 +204,9 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
         }
 
         function addBacklinks(id, websitename) { 
-            $.post("backlinks.php", { 'id': id, 'websitename': websitename })
+            $.post("backlinks", { 'id': id, 'websitename': websitename })
             .done(function(response) {
-                window.location.href = "backlinks.php";
+                window.location.href = "backlinks";
             });
         }
     </script>
@@ -256,7 +256,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                         <img src="../assets/img/customer.png" class="topbar-avatar" alt="Avatar">
                         <span class="topbar-username"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Admin'); ?></span>
                     </div>
-                    <a href="../includes/auth/logout.php" class="btn-falcon-logout">
+                    <a href="../includes/auth/logout" class="btn-falcon-logout">
                         <i class="fa fa-sign-out"></i>
                         <span>Log out</span>
                     </a>

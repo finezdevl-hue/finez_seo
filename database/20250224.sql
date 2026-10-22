@@ -18022,10 +18022,10 @@ CREATE TABLE `tbl_seo_menu` (
 --
 
 INSERT INTO `tbl_seo_menu` (`id`, `parent_id`, `name`, `nav_url`, `menu_level`, `sub_menu`, `icon`) VALUES
-(1, 1, 'Members', 'members.php', 1, 0, 'fa fa-group'),
-(2, 2, 'Projects', 'projects.php', 1, 0, 'fa fa-tasks'),
-(3, 3, 'Backlinks History', 'backlink_list.php', 1, 0, 'fa fa-history'),
-(4, 4, 'Set Menu', 'set_menu.php', 1, 0, 'fa fa-cogs');
+(1, 1, 'Employees', 'members', 1, 0, 'fa fa-group'),
+(2, 2, 'Projects', 'projects', 1, 0, 'fa fa-tasks'),
+(3, 3, 'Backlinks History', 'backlink_list', 1, 0, 'fa fa-history'),
+(4, 4, 'Set Menu', 'set_menu', 1, 0, 'fa fa-cogs');
 
 -- --------------------------------------------------------
 

@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 if (!isset($_SESSION['name'])) {
-    header("Location: ../index.php");
+    header("Location: ../");
     exit();
 }
 ?>
@@ -512,7 +512,7 @@ if (!isset($_SESSION['name'])) {
                         <img src="../assets/img/customer.png" class="topbar-avatar" alt="Avatar">
                         <span class="topbar-username"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Specialist'); ?></span>
                     </div>
-                    <a href="../includes/auth/logout.php" class="btn-falcon-logout">
+                    <a href="../includes/auth/logout" class="btn-falcon-logout">
                         <i class="fa fa-sign-out"></i>
                         <span>Log out</span>
                     </a>
@@ -1033,7 +1033,7 @@ if (!isset($_SESSION['name'])) {
         function loadFilterOptions() {
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: { action: 'get_filter_options' },
                 dataType: "json",
                 success: function(res) {
@@ -1068,7 +1068,7 @@ if (!isset($_SESSION['name'])) {
         function loadKPIs() {
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: { action: 'get_kpis' },
                 dataType: "json",
                 success: function(res) {
@@ -1133,7 +1133,7 @@ if (!isset($_SESSION['name'])) {
 
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: payload,
                 dataType: "json",
                 success: function(data) {
@@ -1240,7 +1240,7 @@ if (!isset($_SESSION['name'])) {
 
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: payload,
                 dataType: "json",
                 success: function(res) {
@@ -1319,7 +1319,7 @@ if (!isset($_SESSION['name'])) {
         function openEditModal(ticketId) {
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: { action: 'get_ticket_details', id: ticketId },
                 dataType: "json",
                 success: function(res) {
@@ -1352,7 +1352,7 @@ if (!isset($_SESSION['name'])) {
 
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: formData,
                 dataType: "json",
                 success: function(res) {
@@ -1384,7 +1384,7 @@ if (!isset($_SESSION['name'])) {
             activeViewTicketId = ticketId;
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: { action: 'get_ticket_details', id: ticketId },
                 dataType: "json",
                 success: function(res) {
@@ -1468,7 +1468,7 @@ if (!isset($_SESSION['name'])) {
 
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: {
                     action: 'add_comment',
                     ticket_id: activeViewTicketId,
@@ -1493,7 +1493,7 @@ if (!isset($_SESSION['name'])) {
         function quickStatusChange(newStatus) {
             $.ajax({
                 type: "POST",
-                url: "api/tickets.php",
+                url: "api/tickets",
                 data: {
                     action: 'change_status',
                     id: activeViewTicketId,
