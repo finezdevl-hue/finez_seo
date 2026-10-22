@@ -79,6 +79,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
         var allProjectsList = [];
 
         $(document).ready(function() {
+            loadMenu();
             load_project();
             load_modal_projects();
             load_content_categories();
@@ -397,12 +398,25 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                         <label style="margin: 0; font-size: 12px; font-weight: 700; color: var(--falcon-gray-700);"><i class="fa fa-filter text-primary"></i> Project:</label>
                         <div id="status-container"></div>
                     </div>
+                    <a href="backlinks.php" class="btn btn-white" style="height: 38px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                        <i class="fa fa-link text-primary"></i> Backlinks Tracker
+                    </a>
                     <button type="button" id="btn_add_backlink" class="btn btn-primary" onclick="addBacklinks(event);" style="height: 38px; font-size: 13px; font-weight: 700; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; cursor: pointer; position: relative; z-index: 5;">
                         <i class="fa fa-plus"></i> Add Backlink
                     </button>
                 </div>
             </div>
             <!-- Page Heading End -->
+
+            <!-- View Switcher Tabs -->
+            <div class="row wrapper" style="margin: 0 0 15px 0;">
+                <div class="col-xs-12" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; gap: 8px;">
+                        <a href="backlinks.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-link text-primary"></i> Backlinks Tracker</a>
+                        <a href="backlink_list.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-history"></i> Full Backlink History</a>
+                    </div>
+                </div>
+            </div>
             
             <div class="wrapper wrapper-content animated fadeInRight" id="table_client">
                 <!-- data injected Dynamically via ajax -->

@@ -1,7 +1,9 @@
 <?php
-session_start();
-include '../../app_common/db_connect.php';
-include '../../app_pagination/pagination.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include_once __DIR__ . '/../../app_common/db_connect.php';
+include_once __DIR__ . '/../../app_pagination/pagination.php';
 
 if (!isset($_SESSION['name'])) {
     http_response_code(401);
@@ -108,18 +110,13 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
             $result = app_exec_query($sql);
 
             echo "<div class='dropdown'><select id='selected_employee' class='status-dropdown' onchange='loadData(1)'>";
-            if ($isAdmin) {
-                echo "<option value='0' selected>All Team Members</option>";
-            }
+            echo "<option value='0' selected>All Team Members</option>";
             if ($result && $result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $id = $row['login_id'];
+                    $id = (int)$row['login_id'];
                     $name = htmlspecialchars($row['name']);
-                    if (!$isAdmin && (int)$id !== $currentLoginId) {
-                        continue;
-                    }
-                    $selected = (!$isAdmin || (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === (int)$id)) ? 'selected' : '';
-                    echo "<option value='$id' $selected>$name</option>";
+                    $label = ($id === $currentLoginId) ? "$name (Me)" : $name;
+                    echo "<option value='$id'>$label</option>";
                 }
             }
             echo "</select></div>";
@@ -144,10 +141,7 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
             $isAdmin = ($currentLoginId === 1);
 
             $projectId = get_active_project_id();
-            $employeeId = isset($_POST['employee']) && $_POST['employee'] !== '' && $_POST['employee'] !== '0' ? (int)$_POST['employee'] : 0;
-            if (!$isAdmin) {
-                $employeeId = $currentLoginId;
-            }
+            $employeeId = isset($_POST['employee']) && $_POST['employee'] !== '' ? (int)$_POST['employee'] : 0;
             $searchVal = trim($_POST['val'] ?? '');
 
             $whereParts = ["b.project_id = " . $projectId];
@@ -156,12 +150,12 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
             }
             if (!empty($searchVal)) {
                 $safeSearch = addslashes($searchVal);
-                $whereParts[] = "(b.links LIKE '%$safeSearch%' OR b.user_name LIKE '%$safeSearch%' OR c.name LIKE '%$safeSearch%')";
+                $whereParts[] = "(b.links LIKE '%$safeSearch%' OR b.user_name LIKE '%$safeSearch%' OR c.name LIKE '%$safeSearch%' OR l.name LIKE '%$safeSearch%')";
             }
 
             $whereSql = "WHERE " . implode(" AND ", $whereParts);
 
-            $sqldatarows = "SELECT b.id, b.project_id, b.links, b.user_name, b.password, b.content, b.login_id, DATE_FORMAT(b.date_time, '%Y-%m-%d') AS entry_date, c.name, l.name AS employee_name
+            $sqldatarows = "SELECT b.id, b.project_id, b.links, b.user_name, b.password, b.content, b.login_id, DATE_FORMAT(b.date_time, '%Y-%m-%d %H:%i') AS entry_date, c.name, l.name AS employee_name
                 FROM tbl_seo_backlinks AS b 
                 LEFT JOIN tbl_seo_content_type_master AS c ON b.content = c.id 
                 LEFT JOIN tbl_seo_login AS l ON b.login_id = l.login_id 
@@ -169,7 +163,11 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
                 ORDER BY b.date_time DESC 
                 LIMIT $offset, $rowsPerPage";
 
-            $sqlcountrows = "SELECT COUNT(b.id) AS total FROM tbl_seo_backlinks AS b LEFT JOIN tbl_seo_content_type_master AS c ON b.content = c.id $whereSql";
+            $sqlcountrows = "SELECT COUNT(b.id) AS total 
+                FROM tbl_seo_backlinks AS b 
+                LEFT JOIN tbl_seo_content_type_master AS c ON b.content = c.id 
+                LEFT JOIN tbl_seo_login AS l ON b.login_id = l.login_id 
+                $whereSql";
 
             $result = app_exec_query($sqldatarows);
             $totalRowsResult = app_exec_query($sqlcountrows);
@@ -182,7 +180,11 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
                 }
             }
 
-            $pagination = array("total_rows" => $totalRows);
+            $pagination = array(
+                "total_rows" => $totalRows,
+                "current_login_id" => $currentLoginId,
+                "is_admin" => $isAdmin
+            );
             $resdata = array($pagination, $qrydata);
 
             echo json_encode($resdata);

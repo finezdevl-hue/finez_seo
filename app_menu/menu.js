@@ -32,7 +32,7 @@ function applyActiveMenu() {
 
 function loadMenu() {
     // 1. Instant rendering from session cache if available and up-to-date
-    var cachedMenu = sessionStorage.getItem('finez_seo_menu_v12');
+    var cachedMenu = sessionStorage.getItem('finez_seo_menu_v13');
     if (cachedMenu && cachedMenu.indexOf('dashboard.php') !== -1) {
         $('#divMenuContainer').html(cachedMenu);
         applyActiveMenu();
@@ -47,7 +47,7 @@ function loadMenu() {
         },
         success: function(data) {
             if (data && data !== cachedMenu) {
-                sessionStorage.setItem('finez_seo_menu_v12', data);
+                sessionStorage.setItem('finez_seo_menu_v13', data);
                 $('#divMenuContainer').html(data);
                 applyActiveMenu();
             }
@@ -67,5 +67,5 @@ $(document).on('click', 'a[href*="logout.php"]', function() {
     sessionStorage.removeItem('finez_seo_menu_v9');
     sessionStorage.removeItem('finez_seo_menu_v10');
     sessionStorage.removeItem('finez_seo_menu_v11');
-    sessionStorage.removeItem('finez_seo_menu_v12');
+    sessionStorage.removeItem('finez_seo_menu_v13');
 });

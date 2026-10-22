@@ -89,6 +89,7 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
         var allProjectsList = [];
 
         $(document).ready(function() {
+            loadMenu();
             load_projects_dropdown();
             load_employee_filter();
             load_content_categories();
@@ -213,22 +214,26 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                     htm += "<thead>";
                     htm += "<tr>";
                     htm += "<th style='width: 12%;'>Date</th>";
-                    htm += "<th style='width: 34%;'>Live Backlink URL</th>";
-                    htm += "<th style='width: 16%;'>Category / Type</th>";
-                    htm += "<th style='width: 13%;'>Username</th>";
-                    htm += "<th style='width: 11%;'>Password</th>";
-                    htm += "<th style='width: 14%; text-align: right;'>Actions</th>";
+                    htm += "<th style='width: 28%;'>Live Backlink URL</th>";
+                    htm += "<th style='width: 14%;'>Category / Type</th>";
+                    htm += "<th style='width: 12%;'>Username</th>";
+                    htm += "<th style='width: 10%;'>Password</th>";
+                    htm += "<th style='width: 14%;'>Submitted By</th>";
+                    htm += "<th style='width: 10%; text-align: right;'>Actions</th>";
                     htm += "</tr>";
                     htm += "</thead>";
                     htm += "<tbody>";
 
                     if (!rows || rows.length === 0) {
-                        htm += "<tr><td colspan='6' style='text-align: center; padding: 48px 20px; color: var(--falcon-gray-600);'>";
+                        htm += "<tr><td colspan='7' style='text-align: center; padding: 48px 20px; color: var(--falcon-gray-600);'>";
                         htm += "<i class='fa fa-chain-broken' style='font-size: 36px; color: var(--falcon-gray-400); display: block; margin-bottom: 12px;'></i>";
                         htm += "<strong style='font-size: 15px; color: var(--falcon-gray-900);'>No backlinks published yet</strong><br>";
                         htm += "<small>Click the green '+ Add Backlink' button above to submit your first live link for this campaign.</small>";
                         htm += "</td></tr>";
                     } else {
+                        var isAdmin = data[0] && (data[0].is_admin === true || data[0].is_admin === 1);
+                        var currentUserId = data[0] ? data[0].current_login_id : 0;
+
                         for (var i = 0; i < rows.length; i++) {
                             var r = rows[i];
                             var safeLink = r.links ? r.links.replace(/"/g, '&quot;') : '';
@@ -236,6 +241,8 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                             var categoryName = r.name || 'General';
                             var usernameVal = r.user_name || '-';
                             var passwordVal = r.password || '-';
+                            var employeeName = r.employee_name || 'Team Specialist';
+                            var canEdit = isAdmin || (r.login_id == currentUserId);
 
                             htm += "<tr>";
                             htm += "<td><span class='badge-modern badge-modern-slate'><i class='fa fa-calendar-o'></i> " + r.entry_date + "</span></td>";
@@ -243,9 +250,14 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                             htm += "<td><span class='badge-modern badge-subtle-primary'>" + categoryName + "</span></td>";
                             htm += "<td><code style='color: var(--falcon-gray-800); background: var(--falcon-gray-100); padding: 4px 10px; border-radius: 6px; font-size: 0.92rem; font-weight: 600;'>" + usernameVal + "</code></td>";
                             htm += "<td><code style='color: var(--falcon-gray-600); background: var(--falcon-gray-100); padding: 4px 10px; border-radius: 6px; font-size: 0.92rem; font-weight: 600;'>" + passwordVal + "</code></td>";
+                            htm += "<td><span class='badge-modern badge-subtle-success'><i class='fa fa-user-circle'></i> " + employeeName + "</span></td>";
                             htm += "<td style='text-align: right;'>";
                             htm += "<div class='btn-action-group'>";
-                            htm += "<button type='button' class='btn-action-edit' onclick='editBacklink(" + r.id + ",\"" + safeLink + "\",\"" + r.content + "\",\"" + (r.user_name || '') + "\",\"" + (r.password || '') + "\",\"" + r.login_id + "\",\"" + r.project_id + "\");'><i class='fa fa-pencil'></i> Edit</button>";
+                            if (canEdit) {
+                                htm += "<button type='button' class='btn-action-edit' onclick='editBacklink(" + r.id + ",\"" + safeLink + "\",\"" + r.content + "\",\"" + (r.user_name || '') + "\",\"" + (r.password || '') + "\",\"" + r.login_id + "\",\"" + r.project_id + "\");'><i class='fa fa-pencil'></i> Edit</button>";
+                            } else {
+                                htm += "<span class='badge-modern badge-modern-slate' style='font-size: 11px; padding: 4px 8px;'><i class='fa fa-lock'></i> View</span>";
+                            }
                             htm += "</div>";
                             htm += "</td>";
                             htm += "</tr>";
@@ -462,6 +474,11 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                     <!-- User Filter Dropdown -->
                     <div id="status-container"></div>
 
+                    <!-- Backlink History Button -->
+                    <a href="backlink_list.php" class="btn btn-white" style="height: 38px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
+                        <i class="fa fa-history text-primary"></i> Backlink History
+                    </a>
+
                     <!-- + Add Backlink Button -->
                     <button type="button" id="btn_add_backlink" class="btn btn-primary" onclick="addBacklinks(event);" style="height: 38px; font-size: 13px; font-weight: 700; padding: 0 16px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; cursor: pointer; position: relative; z-index: 5;">
                         <i class="fa fa-plus"></i> Add Backlink
@@ -469,6 +486,22 @@ $website_name = $_SESSION['websitename'] ?? 'All Projects';
                 </div>
             </div>
             <!-- Page Heading End -->
+
+            <!-- View Switcher & Search Bar -->
+            <div class="row wrapper" style="margin: 0 0 15px 0;">
+                <div class="col-xs-12" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; gap: 8px;">
+                        <a href="backlinks.php" class="btn btn-primary btn-sm" style="font-weight: 700; border-radius: 6px;"><i class="fa fa-link"></i> Backlinks Tracker</a>
+                        <a href="backlink_list.php" class="btn btn-white btn-sm" style="font-weight: 600; border-radius: 6px;"><i class="fa fa-history text-primary"></i> Full Backlink History</a>
+                    </div>
+                    <div class="input-group" style="width: 260px;">
+                        <input type="text" id="txt_search" class="form-control input-sm" placeholder="Search live URL, category..." onkeyup="if(event.keyCode===13){loadData(1);}" style="border-radius: 6px 0 0 6px; height: 32px; font-size: 12px;">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="loadData(1);" style="border-radius: 0 6px 6px 0; height: 32px;"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
             
             <div class="wrapper wrapper-content animated fadeInRight" id="table_client">
                 <!-- data injected Dynamically via ajax -->
