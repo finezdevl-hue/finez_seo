@@ -2138,3 +2138,45 @@ button.is-loading .btn-spinner {
     border-radius: 50%;
     animation: finezSpin 0.7s linear infinite;
 }
+
+/* Priority Badges */
+.badge-prio-urgent {
+    background: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+    color: #b91c1c !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px !important;
+    border-radius: 50rem !important;
+    display: inline-block !important;
+}
+.badge-prio-high {
+    background: #fff7ed !important;
+    border: 1px solid #fed7aa !important;
+    color: #c2410c !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px !important;
+    border-radius: 50rem !important;
+    display: inline-block !important;
+}
+.badge-prio-medium {
+    background: #f0f9ff !important;
+    border: 1px solid #bae6fd !important;
+    color: #0369a1 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px !important;
+    border-radius: 50rem !important;
+    display: inline-block !important;
+}
+.badge-prio-low {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #475569 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px !important;
+    border-radius: 50rem !important;
+    display: inline-block !important;
+}
