@@ -2,8 +2,8 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include_once __DIR__ . '/../../app_common/db_connect.php';
-include_once __DIR__ . '/../../app_pagination/pagination.php';
+include_once __DIR__ . '/../../config/db.php';
+include_once __DIR__ . '/../../includes/pagination.php';
 
 if (!isset($_SESSION['name'])) {
     http_response_code(401);

@@ -41,7 +41,7 @@ function loadMenu() {
     // 2. Background sync to ensure menu is always fresh
     $.ajax({
         type: "POST",
-        url: "../app_menu/menu.php",
+        url: "../includes/menu.php",
         data: {
             action: 'load_menu_data',
         },

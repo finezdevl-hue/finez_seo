@@ -18,17 +18,17 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="../css/animate.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/modern-theme.css?v=3.5" rel="stylesheet">
-    <script src="../app_js/finez-loader.js"></script>
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="../assets/css/animate.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/modern-theme.css?v=3.5" rel="stylesheet">
+    <script src="../assets/js/finez-loader.js"></script>
 
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <link href="../css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-    <script src="../js/plugins/sweetalert/sweetalert.min.js"></script>
-    <script src="../app_js/sweetalert-finez.js"></script>
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <link href="../assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <script src="../assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="../assets/js/sweetalert-finez.js"></script>
 
     <script>
         $(document).ready(function() {          
@@ -211,12 +211,12 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
         }
     </script>
 
-    <script src="../app_pagination/pagination.js"></script>
-    <script src="../app_menu/menu.js?v=4.2"></script>
+    <script src="../assets/js/pagination.js"></script>
+    <script src="../assets/js/menu.js?v=4.2"></script>
 </head>
 
 <body>
-    <?php include '../app_common/loader.php'; ?>
+    <?php include '../includes/loader.php'; ?>
     <input type="hidden" id="hdn_current_page" value="0">
     <input type="hidden" id="hdn_id" value="0">
 
@@ -253,10 +253,10 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                 <div class="topbar-right-section">
                     <span class="live-status-pill hidden-xs"><span class="pulse-dot"></span> In Sync &bull; Live</span>
                     <div class="topbar-user-badge">
-                        <img src="../img/customer.png" class="topbar-avatar" alt="Avatar">
+                        <img src="../assets/img/customer.png" class="topbar-avatar" alt="Avatar">
                         <span class="topbar-username"><?php echo htmlspecialchars($_SESSION['name'] ?? 'Admin'); ?></span>
                     </div>
-                    <a href="../app_login_manager/logout.php" class="btn-falcon-logout">
+                    <a href="../includes/auth/logout.php" class="btn-falcon-logout">
                         <i class="fa fa-sign-out"></i>
                         <span>Log out</span>
                     </a>
@@ -369,11 +369,11 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
     </div>
 
     <!-- Scripts -->
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="../js/inspinia.js"></script>
-    <script src="../js/plugins/pace/pace.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../assets/js/inspinia.js"></script>
+    <script src="../assets/js/plugins/pace/pace.min.js"></script>
 </body>
 
 </html>

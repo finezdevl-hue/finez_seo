@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../app_common/db_connect.php';
+include_once __DIR__ . '/../../config/db.php';
 
 $feedback = '';
 $feedback_type = '';
@@ -55,16 +55,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800&display=swap" rel="stylesheet">
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="../css/animate.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/modern-theme.css" rel="stylesheet">
-    <script src="../app_js/finez-loader.js"></script>
+    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="../../assets/css/animate.css" rel="stylesheet">
+    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="../../assets/css/modern-theme.css" rel="stylesheet">
+    <script src="../../assets/js/finez-loader.js"></script>
 </head>
 
 <body class="auth-page-body">
-    <?php include '../app_common/loader.php'; ?>
+    <?php include __DIR__ . '/../loader.php'; ?>
 
     <div style="width: 100%; max-width: 440px; background: #ffffff; border: 1px solid var(--falcon-border-color); border-radius: var(--falcon-border-radius); box-shadow: var(--falcon-card-shadow); padding: 36px 32px;" class="animated fadeInDown">
         <div style="text-align: center; margin-bottom: 20px;">
@@ -98,14 +98,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <div style="margin-top: 20px; text-align: center;">
-            <a href="../index.php" style="color: var(--falcon-primary); font-size: 0.8rem; font-weight: 600;">
+            <a href="../../index.php" style="color: var(--falcon-primary); font-size: 0.8rem; font-weight: 600;">
                 <i class="fa fa-arrow-left"></i> Return to Login
             </a>
         </div>
     </div>
 
-    <script src="../js/jquery-3.6.0.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="../../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
 </body>
 
 </html>

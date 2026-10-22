@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../app_common/db_connect.php';
+require_once __DIR__ . '/../config/db.php';
 
 if(isset($_POST['action']) && !empty($_POST['action'])) {
         $action = $_POST['action'];

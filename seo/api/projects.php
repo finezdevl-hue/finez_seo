@@ -1,7 +1,7 @@
 <?php
     session_start();
-    include '../../app_common/db_connect.php';
-    include '../../app_pagination/pagination.php';
+    include __DIR__ . '/../../config/db.php';
+    include __DIR__ . '/../../includes/pagination.php';
 
     // actions start
     if(isset($_POST['action']) && !empty($_POST['action'])) {

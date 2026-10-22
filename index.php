@@ -10,14 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <link href="./font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="./css/animate.css" rel="stylesheet">
-    <link href="./css/style.css" rel="stylesheet">
-    <link href="./css/modern-theme.css?v=3.5" rel="stylesheet">
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="./assets/css/animate.css" rel="stylesheet">
+    <link href="./assets/css/style.css" rel="stylesheet">
+    <link href="./assets/css/modern-theme.css?v=3.5" rel="stylesheet">
 
-    <script src="./js/jquery-3.6.0.min.js"></script>
-    <script src="./app_js/finez-loader.js"></script>
+    <script src="./assets/js/jquery-3.6.0.min.js"></script>
+    <script src="./assets/js/finez-loader.js"></script>
     <script>
         function validatePassword(event) {
             const passwordInput = event.target;
@@ -44,7 +44,7 @@
 </head>
 
 <body class="auth-page-body">
-    <?php include './app_common/loader.php'; ?>
+    <?php include './includes/loader.php'; ?>
 
     <div class="falcon-auth-container animated fadeInDown">
         <!-- Left Brand Banner (Falcon Card Auth Style) -->
@@ -91,7 +91,7 @@
                 <span>Special character restricted. Only @, #, $ are permitted.</span>
             </div>
 
-            <form role="form" action="./app_login_manager/login_validation.php" method="POST">
+            <form role="form" action="./includes/auth/login_validation.php" method="POST">
                 <div class="form-group">
                     <label for="user_name">Username or Email</label>
                     <div class="auth-input-group">
@@ -103,7 +103,7 @@
                 <div class="form-group">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                         <label for="password" style="margin: 0;">Password</label>
-                        <a href="./app_login_manager/forgot_password.php" style="font-size: 0.75rem; color: var(--falcon-primary); font-weight: 500;">
+                        <a href="./includes/auth/forgot_password.php" style="font-size: 0.75rem; color: var(--falcon-primary); font-weight: 500;">
                             Forgot Password?
                         </a>
                     </div>
@@ -122,7 +122,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="./js/bootstrap.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
 </body>
 
 </html>

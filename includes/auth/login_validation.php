@@ -3,7 +3,7 @@ session_start();
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {    
-  include '../app_common/db_connect.php';
+  include_once __DIR__ . '/../../config/db.php';
 
     try{
         $sql = "SELECT login_id,name FROM tbl_seo_login WHERE user_name = ? AND password = ?";    
@@ -24,10 +24,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         if ($result->num_rows > 0) {
-            header("Location: ../seo/dashboard.php");
+            header("Location: ../../seo/dashboard.php");
             exit();
         } else {
-            header("Location: ../index.php?error=invalid");
+            header("Location: ../../index.php?error=invalid");
             exit();
         }
 
@@ -95,11 +95,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <title>Admin | Login</title>
 
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="../css/animate.css" rel="stylesheet">
-    <link href="../css/style.css" rel="stylesheet">
+    <link href="../../assets/css/animate.css" rel="stylesheet">
+    <link href="../../assets/css/style.css" rel="stylesheet">
     </script>
 
 </head>
@@ -109,10 +109,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <p>Login in. To see it in action.</p>
-            <form class="m-t" role="form"action="../index.php" method="POST">
+            <form class="m-t" role="form"action="../../index.php" method="POST">
                 <p  style="color: red">Invalid Usernaem or Password</p>
-                <form action="../index.php" method="POST"> 
-                    <button type="submit" class="btn btn-primary block full-width m-b"><?phpheader("Location: ../index.php");?>retry</button>
+                <form action="../../index.php" method="POST"> 
+                    <button type="submit" class="btn btn-primary block full-width m-b"><?phpheader("Location: ../../index.php");?>retry</button>
                 </form>
                 <!-- <a href="forgot_password.php"><small>Forgot password?</small></a> -->
             </form>
@@ -120,8 +120,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <!-- Mainly scripts -->
-    <script src="../js/jquery-3.6.0.min.js"></script>   
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="../../assets/js/jquery-3.6.0.min.js"></script>   
+    <script src="../../assets/js/bootstrap.min.js"></script>
 
 </body>
 
