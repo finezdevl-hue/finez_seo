@@ -112,18 +112,26 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                 success: function(res) {
                     if (res.status === 'success') {
                         allProjectsList = res.projects;
-                        var activeId = res.active_project_id;
-                        var htm = "";
-                        var modalHtm = "<option value='' disabled>Select Client Project</option>";
+                        var activeId = (res.active_project_id !== undefined && res.active_project_id !== null) ? res.active_project_id : 0;
+                        
+                        var isAllSelected = (activeId == 0) ? "selected" : "";
+                        var htm = "<option value='0' " + isAllSelected + ">All Projects</option>";
+                        var modalHtm = "<option value='' disabled selected>Select Client Project</option>";
 
+                        var activeProjectFound = false;
                         for (var i = 0; i < allProjectsList.length; i++) {
                             var p = allProjectsList[i];
                             var isSelected = (p.id == activeId) ? "selected" : "";
                             htm += "<option value='" + p.id + "' " + isSelected + ">" + p.name + "</option>";
-                            modalHtm += "<option value='" + p.id + "' " + isSelected + ">" + p.name + " (" + p.url + ")</option>";
+                            modalHtm += "<option value='" + p.id + "'>" + p.name + " (" + p.url + ")</option>";
                             if (p.id == activeId) {
                                 $('#lbl_page_project_name').text(p.name + " Backlinks");
+                                activeProjectFound = true;
                             }
+                        }
+
+                        if (!activeProjectFound || activeId == 0) {
+                            $('#lbl_page_project_name').text("All Projects Backlinks");
                         }
 
                         $('#selected_project_nav').html(htm);
@@ -136,10 +144,14 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
 
         // 2. Change Active Project via Header Switcher
         function changeProject(projectId) {
-            var selectedProj = allProjectsList.find(function(item) { return item.id == projectId; });
-            if (selectedProj) {
-                $('#lbl_page_project_name').text(selectedProj.name + " Backlinks");
-                $('#modal_project_id').val(projectId);
+            if (projectId == '0' || projectId === 0) {
+                $('#lbl_page_project_name').text("All Projects Backlinks");
+            } else {
+                var selectedProj = allProjectsList.find(function(item) { return item.id == projectId; });
+                if (selectedProj) {
+                    $('#lbl_page_project_name').text(selectedProj.name + " Backlinks");
+                    $('#modal_project_id').val(projectId);
+                }
             }
             loadData(1);
         }
@@ -251,9 +263,11 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                             var employeeName = r.employee_name || 'Team Specialist';
                             var canEdit = isAdmin || (r.login_id == currentUserId);
 
+                            var projectBadge = r.project_name ? "<span class='badge-modern badge-modern-slate' style='margin-right: 6px; font-size: 11px;'><i class='fa fa-folder-o text-primary'></i> " + r.project_name + "</span>" : "";
+
                             htm += "<tr>";
                             htm += "<td><span class='badge-modern badge-modern-slate'><i class='fa fa-calendar-o'></i> " + r.entry_date + "</span></td>";
-                            htm += "<td><a href='" + displayLink + "' target='_blank' class='url-tag' title='" + safeLink + "'><i class='fa fa-external-link'></i> " + safeLink + "</a></td>";
+                            htm += "<td>" + projectBadge + "<a href='" + displayLink + "' target='_blank' class='url-tag' title='" + safeLink + "'><i class='fa fa-external-link'></i> " + safeLink + "</a></td>";
                             htm += "<td><span class='badge-modern badge-subtle-primary'>" + categoryName + "</span></td>";
                             htm += "<td><code style='color: var(--falcon-gray-800); background: var(--falcon-gray-100); padding: 4px 10px; border-radius: 6px; font-size: 0.92rem; font-weight: 600;'>" + usernameVal + "</code></td>";
                             htm += "<td><code style='color: var(--falcon-gray-600); background: var(--falcon-gray-100); padding: 4px 10px; border-radius: 6px; font-size: 0.92rem; font-weight: 600;'>" + passwordVal + "</code></td>";
@@ -305,8 +319,10 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
             $("#hdn_id").val(0);
             $("#hdn_login_id").val(0);
             var currentNavProj = $('#selected_project_nav').val();
-            if (currentNavProj) {
+            if (currentNavProj && currentNavProj != '0') {
                 $('#modal_project_id').val(currentNavProj);
+            } else {
+                $('#modal_project_id').val('');
             }
             $("#modal_backlink_title").html("<i class='fa fa-link' style='color: var(--falcon-primary); margin-right: 6px;'></i> Add Backlink");
             $('#newFeesModel').modal('show');

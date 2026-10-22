@@ -13,20 +13,15 @@ if (!isset($_SESSION['name'])) {
 
 // Ensure session project ID exists or fallback
 function get_active_project_id() {
-    if (!empty($_POST['project_id'])) {
-        $_SESSION['id'] = (int)$_POST['project_id'];
-        return (int)$_POST['project_id'];
+    if (isset($_POST['project_id']) && $_POST['project_id'] !== '') {
+        $pId = (int)$_POST['project_id'];
+        $_SESSION['id'] = $pId;
+        return $pId;
     }
-    if (!empty($_SESSION['id'])) {
+    if (isset($_SESSION['id'])) {
         return (int)$_SESSION['id'];
     }
-    $res = app_exec_query("SELECT id, name FROM tbl_seo_project ORDER BY id ASC LIMIT 1");
-    if ($res && $row = $res->fetch_assoc()) {
-        $_SESSION['id'] = (int)$row['id'];
-        $_SESSION['websitename'] = $row['name'];
-        return (int)$row['id'];
-    }
-    return 1;
+    return 0; // Default to 0 (All Projects)
 }
 
 if (isset($_POST['action']) && !empty($_POST['action'])) {
@@ -158,19 +153,23 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
             }
             $searchVal = trim($_POST['val'] ?? '');
 
-            $whereParts = ["b.project_id = " . $projectId];
+            $whereParts = [];
+            if ($projectId > 0) {
+                $whereParts[] = "b.project_id = " . $projectId;
+            }
             if ($employeeId > 0) {
                 $whereParts[] = "b.login_id = " . $employeeId;
             }
             if (!empty($searchVal)) {
                 $safeSearch = addslashes($searchVal);
-                $whereParts[] = "(b.links LIKE '%$safeSearch%' OR b.user_name LIKE '%$safeSearch%' OR c.name LIKE '%$safeSearch%' OR l.name LIKE '%$safeSearch%')";
+                $whereParts[] = "(b.links LIKE '%$safeSearch%' OR b.user_name LIKE '%$safeSearch%' OR c.name LIKE '%$safeSearch%' OR l.name LIKE '%$safeSearch%' OR p.name LIKE '%$safeSearch%')";
             }
 
-            $whereSql = "WHERE " . implode(" AND ", $whereParts);
+            $whereSql = !empty($whereParts) ? "WHERE " . implode(" AND ", $whereParts) : "";
 
-            $sqldatarows = "SELECT b.id, b.project_id, b.links, b.user_name, b.password, b.content, b.login_id, DATE_FORMAT(b.date_time, '%Y-%m-%d %H:%i') AS entry_date, c.name, l.name AS employee_name
+            $sqldatarows = "SELECT b.id, b.project_id, b.links, b.user_name, b.password, b.content, b.login_id, DATE_FORMAT(b.date_time, '%Y-%m-%d %H:%i') AS entry_date, c.name, l.name AS employee_name, p.name AS project_name
                 FROM tbl_seo_backlinks AS b 
+                LEFT JOIN tbl_seo_project AS p ON b.project_id = p.id
                 LEFT JOIN tbl_seo_content_type_master AS c ON b.content = c.id 
                 LEFT JOIN tbl_seo_login AS l ON b.login_id = l.login_id 
                 $whereSql 
@@ -179,6 +178,7 @@ if (isset($_POST['action']) && !empty($_POST['action'])) {
 
             $sqlcountrows = "SELECT COUNT(b.id) AS total 
                 FROM tbl_seo_backlinks AS b 
+                LEFT JOIN tbl_seo_project AS p ON b.project_id = p.id
                 LEFT JOIN tbl_seo_content_type_master AS c ON b.content = c.id 
                 LEFT JOIN tbl_seo_login AS l ON b.login_id = l.login_id 
                 $whereSql";
