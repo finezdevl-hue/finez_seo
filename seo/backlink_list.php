@@ -35,7 +35,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
     <script src="../assets/js/sweetalert-finez.js"></script>
 
     <style>
-        select.status-dropdown, select#selected_project {
+        select.status-dropdown, select#selected_project, select#selected_month {
             height: 38px;
             border-radius: 8px;
             border: 1px solid var(--falcon-border-color);
@@ -49,7 +49,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
             transition: var(--transition);
         }
-        select.status-dropdown:focus, select#selected_project:focus {
+        select.status-dropdown:focus, select#selected_project:focus, select#selected_month:focus {
             border-color: var(--falcon-primary);
             box-shadow: 0 0 0 3px rgba(0, 168, 98, 0.15);
             outline: none;
@@ -82,6 +82,7 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
         $(document).ready(function() {
             loadMenu();
             load_project();
+            load_months();
             load_modal_projects();
             load_content_categories();
 
@@ -105,6 +106,73 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                     console.error('AJAX error: ', status, error);
                 }
             });
+        }
+
+        function onProjectChange() {
+            load_months();
+            loadData(1);
+        }
+
+        function load_months() {
+            var curVal = $('#selected_month').val() || '';
+            var projId = $('#selected_project').val() || '0';
+            $.ajax({
+                type: "POST",
+                url: "api/backlink_list",
+                data: { action: 'load_months', project: projId },
+                dataType: "json",
+                success: function(res) {
+                    if (res && res.status === 'success') {
+                        var months = res.months || [];
+                        var htm = "<option value=''>All Months</option>";
+                        for (var i = 0; i < months.length; i++) {
+                            var m = months[i];
+                            var sel = (m.ym === curVal) ? " selected" : "";
+                            htm += "<option value='" + m.ym + "'" + sel + ">" + m.label + " (" + m.count + ")</option>";
+                        }
+                        htm += "<option value='__custom__'>&#128197; Custom Month...</option>";
+                        $('#selected_month').html(htm);
+                        if (curVal && curVal !== '__custom__') {
+                            $('#selected_month').val(curVal);
+                            $('#btn_clear_month').show();
+                        }
+                    }
+                }
+            });
+        }
+
+        function onMonthChange() {
+            var val = $('#selected_month').val();
+            if (val === '__custom__') {
+                $('#custom_month_input').show().focus();
+                $('#btn_clear_month').show();
+                if ($('#custom_month_input').val()) {
+                    loadData(1);
+                }
+            } else {
+                $('#custom_month_input').hide();
+                if (val && val !== '') {
+                    $('#btn_clear_month').show();
+                } else {
+                    $('#btn_clear_month').hide();
+                }
+                loadData(1);
+            }
+        }
+
+        function onCustomMonthChange() {
+            var val = $('#custom_month_input').val();
+            if (val) {
+                $('#btn_clear_month').show();
+                loadData(1);
+            }
+        }
+
+        function clearMonthFilter() {
+            $('#selected_month').val('');
+            $('#custom_month_input').val('').hide();
+            $('#btn_clear_month').hide();
+            loadData(1);
         }
 
         function load_modal_projects() {
@@ -149,6 +217,11 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
 
         function loadData(page) {
             $('#hdn_current_page').val(page);
+            var chosenMonth = $('#selected_month').val();
+            if (chosenMonth === '__custom__') {
+                chosenMonth = $('#custom_month_input').val() || '';
+            }
+
             if (window.FinezLoader) {
                 FinezLoader.cardLoader('#table_client', 'Fetching backlink audit records...');
             }
@@ -158,13 +231,25 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                 data: {
                     action: 'load_data',
                     page: page,
-                    project: $("#selected_project").val(),
+                    project: $("#selected_project").val() || '0',
+                    month: chosenMonth
                 },
                 success: function(data) {
                     var obj = jQuery.parseJSON(data);
                     var totalrows = obj[0].total_rows;
                     var isAdmin = obj[0].is_admin;
-                    var boxTitle = isAdmin ? "All Backlink Submissions (" + totalrows + ")" : "My Backlink History (" + totalrows + ")";
+                    var activeMonth = obj[0].month || '';
+
+                    var monthBadge = "";
+                    var monthDisplay = "";
+                    if (activeMonth) {
+                        var monthLabel = $('#selected_month option[value="' + activeMonth + '"]').text() || activeMonth;
+                        monthLabel = monthLabel.replace(/\s*\(\d+\)$/, '');
+                        monthBadge = " <span class='badge-modern badge-subtle-primary' style='font-size: 11px; margin-left: 6px;'><i class='fa fa-calendar'></i> " + monthLabel + "</span>";
+                        monthDisplay = " in " + monthLabel;
+                    }
+
+                    var boxTitle = (isAdmin ? "All Backlink Submissions (" + totalrows + ")" : "My Backlink History (" + totalrows + ")") + monthBadge;
                     var badgeHtm = isAdmin ? "<span class='badge-modern badge-subtle-primary'><i class='fa fa-database'></i> Team Audit Log</span>" : "<span class='badge-modern badge-subtle-success'><i class='fa fa-user-circle'></i> My Submissions</span>";
                     var htm = "";
 
@@ -191,10 +276,14 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                     htm += "<tbody>";
 
                     if (!obj[1] || obj[1].length === 0) {
-                        var emptyMsg = isAdmin ? "No submissions logged for this project" : "No backlinks submitted by you yet";
-                        var emptySub = isAdmin ? "Select a project from above or click '+ Add Backlink' to publish links." : "Click '+ Add Backlink' to publish your first backlink for this campaign.";
+                        var emptyMsg = activeMonth 
+                            ? "No backlink submissions found for" + monthDisplay 
+                            : (isAdmin ? "No submissions logged for this project" : "No backlinks submitted by you yet");
+                        var emptySub = activeMonth 
+                            ? "Try selecting another month or select 'All Months' to view all campaign links." 
+                            : (isAdmin ? "Select a project from above or click '+ Add Backlink' to publish links." : "Click '+ Add Backlink' to publish your first backlink for this campaign.");
                         htm += "<tr><td colspan='6' style='text-align: center; padding: 48px 20px; color: var(--falcon-gray-600);'>";
-                        htm += "<i class='fa fa-history' style='font-size: 36px; color: var(--falcon-gray-400); display: block; margin-bottom: 12px;'></i>";
+                        htm += "<i class='fa fa-calendar-times-o' style='font-size: 36px; color: var(--falcon-gray-400); display: block; margin-bottom: 12px;'></i>";
                         htm += "<strong style='font-size: 15px; color: var(--falcon-gray-900);'>" + emptyMsg + "</strong><br>";
                         htm += "<small>" + emptySub + "</small>";
                         htm += "</td></tr>";
@@ -396,8 +485,20 @@ $is_admin = (!empty($_SESSION['login_id']) && (int)$_SESSION['login_id'] === 1);
                 </div>
                 <div class="col-md-7 col-sm-12" style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
                     <div style="display: flex; align-items: center; gap: 6px;">
-                        <label style="margin: 0; font-size: 12px; font-weight: 700; color: var(--falcon-gray-700);"><i class="fa fa-filter text-primary"></i> Project:</label>
+                        <label style="margin: 0; font-size: 12px; font-weight: 700; color: var(--falcon-gray-700); white-space: nowrap;"><i class="fa fa-filter text-primary"></i> Project:</label>
                         <div id="status-container"></div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 6px;">
+                        <label style="margin: 0; font-size: 12px; font-weight: 700; color: var(--falcon-gray-700); white-space: nowrap;"><i class="fa fa-calendar text-primary"></i> Month:</label>
+                        <div id="month-container" style="display: flex; align-items: center; gap: 6px;">
+                            <select id="selected_month" class="status-dropdown" onchange="onMonthChange()">
+                                <option value="" selected>All Months</option>
+                            </select>
+                            <input type="month" id="custom_month_input" class="status-dropdown" style="display: none; width: 145px; min-width: unset; height: 38px; padding: 0 8px;" onchange="onCustomMonthChange()">
+                            <button type="button" id="btn_clear_month" class="btn btn-default" onclick="clearMonthFilter()" title="Reset to All Months" style="height: 38px; display: none; padding: 0 10px; border-radius: 8px;">
+                                <i class="fa fa-times text-danger"></i>
+                            </button>
+                        </div>
                     </div>
                     <a href="backlinks" class="btn btn-white" style="height: 38px; font-size: 13px; font-weight: 600; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;">
                         <i class="fa fa-link text-primary"></i> Backlinks Tracker
